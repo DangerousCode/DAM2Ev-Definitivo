@@ -1,0 +1,24 @@
+package servidor;
+import java.io.IOException;
+import java.net.*;
+import java.util.ArrayList;
+import java.util.concurrent.Semaphore;
+public class Servidor {
+
+	public static void main(String[] args) throws IOException {
+		ServerSocket serverSocket=new ServerSocket(9895);
+		Bici[] bici=new Bici[10];
+		Semaphore semaforo=new Semaphore(1);
+		ArrayList<Hilo> alhilos=new ArrayList<Hilo>();
+		
+		for(int i=0;i<10;i++){
+			bici[i]=new Bici(i,false);
+		}
+		
+		while(true){
+			System.out.println("Esperando cliente");
+			Socket cliente=serverSocket.accept();
+			alhilos.add(new Hilo(cliente,semaforo,bici));
+		}
+	}
+}

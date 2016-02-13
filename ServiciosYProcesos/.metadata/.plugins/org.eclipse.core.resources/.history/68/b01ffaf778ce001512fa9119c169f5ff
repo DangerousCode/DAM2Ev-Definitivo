@@ -1,0 +1,27 @@
+package cliente;
+
+import java.net.Socket;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.net.*;
+
+public class Cliente {
+
+	public static void main(String[] args) throws IOException, ClassNotFoundException {
+		Socket socket = new Socket("localhost", 9895);
+
+		ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+		ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+
+		Bici datos = (Bici) ois.readObject();
+		datos.setReservada(true);
+		System.out.println("Bicicleta reservada");
+		oos.writeObject(datos);
+	}
+
+}

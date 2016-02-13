@@ -1,0 +1,39 @@
+package principal;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class Metodos {
+	
+	public static void alta(){
+		
+	}
+
+	public static void select(Connection c, int cod_paciente) throws SQLException {
+		int i=1;
+		String select="select * from pacientes where cod_paciente=?";
+		PreparedStatement ps=c.prepareStatement(select);
+		ps.setInt(1, cod_paciente);
+		ResultSet rs=ps.executeQuery();
+		while(rs.next()){
+			System.out.println(rs.getInt(1)+":"+rs.getString(2)+":"+rs.getString(3)+":"+rs.getString(4)+":"+rs.getInt(5)+":"+rs.getString(6)+":"+rs.getString(7));
+		}
+	}
+
+	public static void insert(Connection c, int numpac, String dni, String nombre, int edad, char sex, String alergias, int codhab) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public static void borrar(Connection c, int codhabdel) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public static void update(Connection c, int codhabup) {
+		// TODO Auto-generated method stub
+		
+	}
+}

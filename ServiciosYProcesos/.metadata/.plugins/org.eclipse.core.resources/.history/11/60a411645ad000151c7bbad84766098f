@@ -1,0 +1,62 @@
+package servidor;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.*;
+import java.util.concurrent.Semaphore;
+
+import bici.Bici;
+public class Hilo extends Thread{
+	Socket socket1;
+	Semaphore semaforo;
+	Bici[] bici;
+	
+	Hilo(Socket socket, Semaphore semaforo, Bici[] bici){
+		this.socket1=socket;
+		this.semaforo=semaforo;
+		this.bici=bici;
+	}
+	
+	public void run(){
+		try {
+			Bici bicireserva=null;
+			int i=0;
+			semaforo.acquire();
+			
+			socket1.setTcpNoDelay(true);
+			
+			do{
+				bicireserva=bici[i];
+				i++;
+			}while(i<bici.length && bicireserva.isReservada());
+			
+			System.out.println("La bicicleta a reservar es la numero: "+bicireserva.getNumero());
+			ObjectOutputStream oos=new ObjectOutputStream(this.socket1.getOutputStream());
+			
+			oos.writeObject(bicireserva);
+			oos.flush();
+
+			System.out.println("Enviado");
+			
+			ObjectInputStream ois=new ObjectInputStream(socket1.getInputStream());
+			Bici bicicleta=(Bici) ois.readObject();
+
+			
+			bici[i]=bicicleta;
+			System.out.println("Bicicleta numero: "+bici[i].getNumero()+" reservada");
+			
+			semaforo.release();
+			ois.close();
+			oos.close();
+			socket1.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}

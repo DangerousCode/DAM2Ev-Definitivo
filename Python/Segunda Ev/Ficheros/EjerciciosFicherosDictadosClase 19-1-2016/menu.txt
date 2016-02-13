@@ -1,0 +1,4 @@
+entrante: alitas de pollo
+primero: sopa con garbanzos
+segundo: chuletón de ternera
+

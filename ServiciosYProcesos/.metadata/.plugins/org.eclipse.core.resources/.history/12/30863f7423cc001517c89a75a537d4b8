@@ -1,0 +1,13 @@
+package cliente;
+import java.net.*;
+import java.io.*;
+public class Cliente {
+
+	public static void main(String[] args) throws UnknownHostException, IOException {
+		Socket socket=new Socket("localhost",8952);
+		
+		ObjectInputStream fin=new ObjectInputStream(socket.getInputStream());
+		
+	}
+
+}
