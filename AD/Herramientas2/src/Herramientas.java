@@ -1,3 +1,4 @@
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -14,17 +15,17 @@ import java.util.logging.Logger;
 //import org.xmldb.api.base.ResourceSet;
 //import org.xmldb.api.modules.XPathQueryService;
 
-	/**
-	 *
-	 * @author Daniel Marcos Lorrio
-	 */
-	public class Herramientas {
+/**
+ *
+ * @author Daniel Marcos Lorrio
+ */
+public class Herramientas {
 
-	    /**
-	     * Metodo para inicializar el driver de ExistDB
-	     *
-	     * @param driver Ruta del driver
-	     */
+    /**
+     * Metodo para inicializar el driver de ExistDB
+     *
+     * @param driver Ruta del driver
+     */
 //	    private static void initializeDriver(String driver) {
 //	        String Driver = driver;
 //
@@ -111,96 +112,106 @@ import java.util.logging.Logger;
 //	            ex.printStackTrace();
 //	        }
 //	    }
+    private static Connection connectSQLite(String ruta) {
+        Connection c = null;
 
-	    private static Connection connectSQLite(String ruta) {
-	        Connection c = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:C:\\sqlite3\\" + ruta + ".db");
+            System.out.println("DB abierta con exito :D");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error al iniciar la DB D:");
+        }
+        return c;
+    }
 
-	        try {
-	            Class.forName("org.sqlite.JDBC");
-	            c = DriverManager.getConnection("jdbc:sqlite:C:\\sqlite3\\" + ruta + ".db");
-	            System.out.println("DB abierta con exito :D");
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            System.out.println("Error al iniciar la DB D:");
-	        }
-	        return c;
-	    }
+    public static void consultSQLite(String ruta, String consulta) {
+        try {
+            Statement stmt = connectSQLite(ruta).createStatement();
 
-	    public static void consultSQLite(String ruta, String consulta) {
-	        try {
-	            Statement stmt = connectSQLite(ruta).createStatement();
+            ResultSet rs = stmt.executeQuery(consulta + ";");
 
-	            ResultSet rs = stmt.executeQuery(consulta + ";");
+            while (rs.next()) {
+                int id = rs.getInt(1); // posicion que devuelve
+                String nom = rs.getString(2);
+                System.out.println("El id es: " + id);
+                System.out.println("El nombre es: " + nom);
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
-	            while (rs.next()) {
-	                int id = rs.getInt(1); // posicion que devuelve
-	                String nom = rs.getString(2);
-	                System.out.println("El id es: " + id);
-	                System.out.println("El nombre es: " + nom);
-	            }
-	            rs.close();
-	            stmt.close();
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
-	    }
+    public static void createTableSQLite(String ruta, String create) {
+        try {
+            Statement stmt = connectSQLite(ruta).createStatement();
 
-	    public static void createTableSQLite(String ruta, String create) {
-	        try {
-	            Statement stmt = connectSQLite(ruta).createStatement();
+            stmt.execute(create);
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
-	            stmt.execute(create);
-	            stmt.close();
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
-	    }
+    public static void selectSQLite(String ruta, String consulta, float f) {
+        try {
+            PreparedStatement sel = connectSQLite(ruta).prepareStatement(consulta);
+            // select id from companya where salary > ? and nombre like "?"
 
-	    public static void selectSQLite(String ruta, String consulta, float f) {
-	        try {
-	            PreparedStatement sel = connectSQLite(ruta).prepareStatement(consulta);
-	            // select id from companya where salary > ? and nombre like "?"
+            sel.setFloat(1, f); // El 1 corresponde a los interrogantes del where
 
-	            sel.setFloat(1, f); // El 1 corresponde a los interrogantes del where
+            ResultSet r1 = sel.executeQuery();
+            while (r1.next()) {
+                System.out.println(r1.getInt(1)); // El 1 corresponde al numero de columnas del select
+            }
+            r1.close();
+            sel.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
 
-	            ResultSet r1 = sel.executeQuery();
-	            while (r1.next()) {
-	                System.out.println(r1.getInt(1)); // El 1 corresponde al numero de columnas del select
-	            }
-	            r1.close();
-	            sel.close();
-	        } catch (SQLException ex) {
-	            ex.printStackTrace();
-	        }
-	    }
+    public static void insert2SQLite(String ruta, String tabla) {
+        try {
+            PreparedStatement insert = connectSQLite(ruta).prepareStatement("insert into " + tabla + " values(?,?)");
+            insert.setInt(1, 100);
+            insert.setString(2, "lenguaje");
+            insert.executeUpdate();
+            insert.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
 
-	    public static void insert2SQLite(String ruta, String tabla) {
-	        try {
-	            PreparedStatement insert = connectSQLite(ruta).prepareStatement("insert into " + tabla + " values(?,?)");
-	            insert.setInt(1, 100);
-	            insert.setString(2, "lenguaje");
-	            insert.executeUpdate();
-	            insert.close();
-	        } catch (SQLException ex) {
-	            ex.printStackTrace();
-	        }
-	    }
+    public static void insertArraySQLite(String ruta, String tabla) {
+        String[] values = {"101", "Programacion", "102", "Script", "103", "0.0", "104", "Pargela"};
+        PreparedStatement c1;
+        try {
+            c1 = connectSQLite(ruta).prepareStatement("insert into java2 values(?,?)");
+            for (int i = 0; i < values.length; i++) {
+                if (i % 2 != 0) {
+                    c1.setString(2, values[i]);
+                } else {
+                    c1.setInt(1, Integer.parseInt(values[i]));
+                }
+                c1.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
 
-	    public static void insertArraySQLite(String ruta, String tabla) {
-	        String[] values = {"101", "Programacion", "102", "Script", "103", "0.0", "104", "Pargela"};
-	        PreparedStatement c1;
-	        try {
-	            c1 = connectSQLite(ruta).prepareStatement("insert into java2 values(?,?)");
-	            for (int i = 0; i < values.length; i++) {
-	                if (i % 2 != 0) {
-	                    c1.setString(2, values[i]);
-	                } else {
-	                    c1.setInt(1, Integer.parseInt(values[i]));
-	                }
-	                c1.executeUpdate();
-	            }
-	        } catch (SQLException ex) {
-	            ex.printStackTrace();
-	        }
-	    }
-	}
+    public static Connection ConectarOracle(String usr, String pass) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+        String driver = "oracle.jdbc.driver.OracleDriver";
+        String host = "localhost";
+        String sid = "XE";
+        String puerto = "1521";
+        String ulrjdbc = "jbc:oracle:thin" + usr + "/" + pass + "@" + host + ":" + puerto + ":" + sid;
+        Class.forName(driver).newInstance();
+        Connection conn = DriverManager.getConnection(ulrjdbc);
+        return conn;
+    }
+}
