@@ -19,13 +19,9 @@ public class Activity2 extends Activity {
         setContentView(R.layout.activity_2);
         //Cogemos el paquete del intent.
         Bundle bundle=this.getIntent().getExtras();
-        //Creamos las variables donde introduciremos los datos.
-        TextView usuario=(TextView) findViewById(R.id.usr);
-        TextView contraseña=(TextView) findViewById(R.id.pass);
-        //Escribiremos el texto en cada textView del paquete
 
         ArrayList<DatosUser> datos=new ArrayList<>();
-        datos.add(new DatosUser(usuario.getText().toString(),contraseña.getText().toString()));
+        datos.add(new DatosUser(bundle.getString("usr").toString(),bundle.getString("pass").toString()));
 
         AdaptadorLista adaptadorLista=new AdaptadorLista(this.getApplicationContext(),datos);
 

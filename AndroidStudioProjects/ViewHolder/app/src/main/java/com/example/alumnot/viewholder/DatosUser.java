@@ -1,9 +1,11 @@
 package com.example.alumnot.viewholder;
 
+import java.io.Serializable;
+
 /**
  * Created by AlumnoT on 18/02/2016.
  */
-public class DatosUser {
+public class DatosUser implements Serializable {
     String user;
     String pass;
 
