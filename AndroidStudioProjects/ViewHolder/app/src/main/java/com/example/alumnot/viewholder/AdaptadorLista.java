@@ -48,8 +48,8 @@ public class AdaptadorLista extends ArrayAdapter<DatosUser> {
             holder = (ViewHolder)item.getTag();
         }
 
-        holder.usuario.setText(datos[position].getUser());
-        holder.contraseña.setText(datos[position].getPass());
+        holder.usuario.setText(datos.get(position).getUser());
+        holder.contraseña.setText(datos.get(position).getPass());
 
         return(item);
     }
