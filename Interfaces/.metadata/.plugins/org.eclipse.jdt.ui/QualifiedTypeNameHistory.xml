@@ -1,2 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy/>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="javafx.collections.ObservableList"/>
+<fullyQualifiedTypeName name="javafx.collections.FXCollections"/>
+<fullyQualifiedTypeName name="ch.makery.address.view.PersonOverviewController"/>
+<fullyQualifiedTypeName name="ch.makery.address.util.DateUtil"/>
+<fullyQualifiedTypeName name="org.controlsfx.dialog.Dialogs"/>
+<fullyQualifiedTypeName name="javafx.stage.Modality"/>
+<fullyQualifiedTypeName name="ch.makery.address.view.PersonEditDialogController"/>
+</qualifiedTypeNameHistroy>
