@@ -13,14 +13,13 @@ import java.util.ArrayList;
  */
 public class Activity2 extends Activity {
     //Aqui da problemas y creo que es por no pasar la base de datos en el intent
-    UsuariosSQLiteHelper bd= new UsuariosSQLiteHelper(this, "DBUsuarios",null,1);
-    SQLiteDatabase db = bd.getWritableDatabase();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_2);
 
+        SQLiteDatabase db = SQLiteDatabase.openDatabase("DBUsuarios",null,1);
         ArrayList<DatosUser> datos=new ArrayList<>();
 
         Cursor curows= db.rawQuery("SELECT count(*) FROM usuarios", null);
@@ -30,6 +29,7 @@ public class Activity2 extends Activity {
             Cursor curselect= db.rawQuery("SELECT usuario, pass FROM usuarios WHERE codigo="+i, null);
             datos.add(new DatosUser(curselect.getString(0),curselect.getString(1)));
         }
+        curows.close();
 
         AdaptadorLista adaptadorLista=new AdaptadorLista(this.getApplicationContext(),datos);
 
