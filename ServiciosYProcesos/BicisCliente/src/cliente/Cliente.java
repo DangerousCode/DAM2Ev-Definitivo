@@ -43,35 +43,34 @@ public class Cliente {
 		//-------------------------------------------------------------
 		ventana.escribecadena("\nA la espera de confirmacion");
 		InputStream is=socket.getInputStream();
-		System.out.println("Hola1");
 		BufferedReader br=new BufferedReader(new InputStreamReader(is));
-		System.out.println("Hola2");
-		//Se queda pillado aqui... POR QUE RITO POR QUE
-		String confirmacion=br.readLine();
-		System.out.println("Hola3");
-		ventana.escribecadena(confirmacion);
+		String confirmacion=br.readLine().toString();
 		//-------------------------------------------------------------
-//		ventana.escribecadena("Voy a utilizar la bici");
-//		switch(random.nextInt(4)){
-//		case 0:
-//			Thread.sleep(1000);
-//		case 1:
-//			Thread.sleep(2000);
-//		case 2:
-//			Thread.sleep(3000);
-//		case 3:
-//			Thread.sleep(4000);
-//		}
-//		ventana.escribecadena("Ya he terminado de utilizarla, voy a devolverla");
-//		OutputStream os=socket.getOutputStream();
-//		os.write(datos.getNumero());
-//		ventana.escribecadena("Bici devuelta numero: "+datos.getNumero());
-		
-//		os.close();
 		is.close();
 		ois.close();
 		oos.close();
 		socket.close();
+		
+		//##############FIN RESERVA##############
+		
+		
+		if(confirmacion.equals("X")){
+			ventana.escribecadena("No se ha podido reservar la bici.");
+		}else{
+			ventana.escribecadena("Se ha reservado correctamente la bici.");
+			ventana.escribecadena("Voy a utilizar la bici");
+			switch(random.nextInt(4)){
+			case 0:
+				Thread.sleep(1000);
+			case 1:
+				Thread.sleep(2000);
+			case 2:
+				Thread.sleep(3000);
+			case 3:
+				Thread.sleep(4000);
+			}
+			ventana.escribecadena("Ya he terminado de utilizarla, voy a devolverla");
+		}
 	}
 
 }

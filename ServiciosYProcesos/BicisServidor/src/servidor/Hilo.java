@@ -39,30 +39,26 @@ public class Hilo extends Thread{
 			ObjectInputStream ois=new ObjectInputStream(socket1.getInputStream());
 			Bici bicicleta=(Bici) ois.readObject();
 
-			
 			bici[i]=bicicleta;
+			
+			OutputStream os=socket1.getOutputStream();
 			if(bici[i].isReservada()){
 				ventana.escribecadena("Bicicleta numero: "+bici[i].getNumero()+" reservada: "+bici[i].isReservada());
 				//-------------------------------------------------------------------
-				OutputStream os=socket1.getOutputStream();
-				os.write("Bicicleta reservada correctamente".getBytes());
-				System.out.println("Holap");
+				os.write("Y".getBytes());
+				ventana.escribecadena("Confirmacion enviada");
 				//--------------------------------------------------------------------
 			}else{
 				ventana.escribecadena("No se ha podido reservar la bici numero: "+bici[i].getNumero());
+				os.write("X".getBytes());
 			}
 			
 			//-----------------------------------------------
-			semaforo.release();
-			
-//			InputStream is=socket1.getInputStream();
-//			int pos=is.read();
-//			bici[pos-1].setReservada(true);
-//			ventana.escribecadena("Bici numero "+pos+" devuelta.");
-//			
-//			ois.close();
-//			oos.close();
-//			socket1.close();
+			semaforo.release();	
+			ois.close();
+			oos.close();
+			socket1.close();
+			//
 			
 		} catch (IOException e) {
 			e.printStackTrace();

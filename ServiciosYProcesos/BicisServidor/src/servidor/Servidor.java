@@ -23,7 +23,7 @@ public class Servidor {
 			hilo[i]=new Hilo(cliente,semaforo,bici,ventana);
 			hilo[i].start();
 		}
-		for(int i=0;i<3;i++){
+		for(int i=0;i<10;i++){
 			hilo[i].join();
 		}
 		serverSocket.close();
