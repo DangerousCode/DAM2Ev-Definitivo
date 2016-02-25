@@ -2,5 +2,14 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="lib" path="C:/Users/AlumnoT/Desktop/lib Exist/apache-log4j-1.2.15.jar"/>
+	<classpathentry kind="lib" path="C:/Users/AlumnoT/Desktop/lib Exist/commons.io_2.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/AlumnoT/Desktop/lib Exist/exist.jar"/>
+	<classpathentry kind="lib" path="C:/Users/AlumnoT/Desktop/lib Exist/exist-optional.jar"/>
+	<classpathentry kind="lib" path="C:/Users/AlumnoT/Desktop/lib Exist/ws-commons-util-1.0.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/AlumnoT/Desktop/lib Exist/xml-apis-1.4.01.jar"/>
+	<classpathentry kind="lib" path="C:/Users/AlumnoT/Desktop/lib Exist/xmldb.jar"/>
+	<classpathentry kind="lib" path="C:/Users/AlumnoT/Desktop/lib Exist/xmlrpc-client-3.1.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/AlumnoT/Desktop/lib Exist/xmlrpc-common-3.1.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

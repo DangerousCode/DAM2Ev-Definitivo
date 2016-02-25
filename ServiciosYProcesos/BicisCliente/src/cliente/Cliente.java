@@ -8,6 +8,7 @@ import java.util.Random;
 import bici.Bici;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -29,9 +30,12 @@ public class Cliente {
 		socket.setTcpNoDelay(true);
 		Ventanas ventana=new Ventanas("Cliente");
 		Random random=new Random();
+		int numbici=0;
+		ventana.escribecadena("Conectado");
 		//Se envia res para que el hilo sepa que es una reserva
-		OutputStream osres=socket.getOutputStream();
-		osres.write("res".getBytes());
+		DataOutputStream dosres= new DataOutputStream(socket.getOutputStream());
+		dosres.writeUTF("res");
+		ventana.escribecadena(" ha pasado");
 		//-----------------------------------
 		ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 		Bici datos = (Bici) ois.readObject();
@@ -52,7 +56,7 @@ public class Cliente {
 		is.close();
 		ois.close();
 		oos.close();
-		osres.close();
+		dosres.close();
 		socket.close();
 		
 		//##############FIN RESERVA##############
@@ -76,9 +80,11 @@ public class Cliente {
 			ventana.escribecadena("Ya he terminado de utilizarla, voy a devolverla");
 			
 			Socket socketdev=new Socket ("localhost",6000);
-			OutputStream osdev= socketdev.getOutputStream();
+			DataOutputStream osdev= new DataOutputStream(socketdev.getOutputStream());
 			//Se envia dev para que el hilo ejecute la opcion de devolver
-			osdev.write("dev".getBytes());
+			osdev.writeUTF("dev");
+			//-----------------------------------------
+			osdev.write(numbici);
 		}
 	}
 

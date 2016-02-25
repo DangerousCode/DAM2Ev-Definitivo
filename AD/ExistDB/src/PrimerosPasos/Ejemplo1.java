@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package PrimerosPasos;
-import herramientas2.Herramientas2;
+import herramientas2.*;
 
 /**
  *
@@ -26,14 +26,10 @@ public class Ejemplo1 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        try {
-            //Obtencion de coleccion y establecimiento de conexion
-            Collection col=herramientas2.Herramientas2.conectarDb("Bailes","admin","admin");
-            //Consulta
-            herramientas2.Herramientas2.consultaXQUERY(col, "let $i := //baile/nombre return <los-bailes>{$i}</los-bailes>");
-        } catch (XMLDBException ex) {
-            Logger.getLogger(Ejemplo1.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        //Obtencion de coleccion y establecimiento de conexion
+		Collection col=Herramientas.connectExistDB("Bailes", "admin","admin");
+		//Consulta
+		Herramientas.consultExistDB(col, "let $i := //baile/nombre return <los-bailes>{$i}</los-bailes>");
     }
     
 }
