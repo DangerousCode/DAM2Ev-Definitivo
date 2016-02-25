@@ -1,8 +1,0 @@
-package principal;
-
-public class Metodos {
-	
-	public static void alta(){
-		
-	}
-}

@@ -29,10 +29,7 @@ public class Cliente {
 		socket.setTcpNoDelay(true);
 		Ventanas ventana=new Ventanas("Cliente");
 		Random random=new Random();
-		//Se envia res para que el hilo sepa que es una reserva
-		OutputStream osres=socket.getOutputStream();
-		osres.write("res".getBytes());
-		//-----------------------------------
+		
 		ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 		Bici datos = (Bici) ois.readObject();
 		
@@ -52,7 +49,6 @@ public class Cliente {
 		is.close();
 		ois.close();
 		oos.close();
-		osres.close();
 		socket.close();
 		
 		//##############FIN RESERVA##############
@@ -74,11 +70,6 @@ public class Cliente {
 				Thread.sleep(4000);
 			}
 			ventana.escribecadena("Ya he terminado de utilizarla, voy a devolverla");
-			
-			Socket socketdev=new Socket ("localhost",6000);
-			OutputStream osdev= socketdev.getOutputStream();
-			//Se envia dev para que el hilo ejecute la opcion de devolver
-			osdev.write("dev".getBytes());
 		}
 	}
 

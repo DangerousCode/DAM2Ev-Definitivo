@@ -57,7 +57,7 @@ public class Herramientas {
         String Driver = "org.exist.xmldb.DatabaseImpl";
         // Ruta completa para llegar al contenedor del que se hacen consultas
         // "xmldb:exist://localhost:8080/exist/xmlrpc/db/prueba"
-        String URI = "xmldb:exist://localhost:8085/exist/xmlrpc/db/" + uri;
+        String URI = "xmldb:exist://localhost:8080/exist/xmlrpc/db/" + uri;
         // Usuario y contrasena de la DB
         // "admin"
         String username = user;
@@ -139,7 +139,12 @@ public class Herramientas {
 
             ResultSet rs = stmt.executeQuery(consulta + ";");
 
-            //While con el result set rs.next() con los set correspondientes.
+            while (rs.next()) {
+                int id = rs.getInt(1); // posicion que devuelve
+                String nom = rs.getString(2);
+                System.out.println("El id es: " + id);
+                System.out.println("El nombre es: " + nom);
+            }
             rs.close();
             stmt.close();
         } catch (SQLException e) {
@@ -166,7 +171,9 @@ public class Herramientas {
             sel.setFloat(1, f); // El 1 corresponde a los interrogantes del where
 
             ResultSet r1 = sel.executeQuery();
-            //While con iterador del result set
+            while (r1.next()) {
+                System.out.println(r1.getInt(1)); // El 1 corresponde al numero de columnas del select
+            }
             r1.close();
             sel.close();
         } catch (SQLException ex) {
@@ -174,12 +181,31 @@ public class Herramientas {
         }
     }
 
-    public static void insert2SQLite(String ruta, String tabla, String consulta) {
+    public static void insert2SQLite(String ruta, String tabla) {
         try {
-            PreparedStatement insert = connectSQLite(ruta).prepareStatement(consulta);
-            //Sets para el insert
+            PreparedStatement insert = connectSQLite(ruta).prepareStatement("insert into " + tabla + " values(?,?)");
+            insert.setInt(1, 100);
+            insert.setString(2, "lenguaje");
             insert.executeUpdate();
             insert.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static void insertArraySQLite(String ruta, String tabla) {
+        String[] values = {"101", "Programacion", "102", "Script", "103", "0.0", "104", "Pargela"};
+        PreparedStatement c1;
+        try {
+            c1 = connectSQLite(ruta).prepareStatement("insert into java2 values(?,?)");
+            for (int i = 0; i < values.length; i++) {
+                if (i % 2 != 0) {
+                    c1.setString(2, values[i]);
+                } else {
+                    c1.setInt(1, Integer.parseInt(values[i]));
+                }
+                c1.executeUpdate();
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -195,7 +221,8 @@ public class Herramientas {
             Iterator it = al.iterator();
 
             while (it.hasNext()) {
-                //Sets para la consulta
+                ps.setInt(1, (int) it.next());
+                ps.setString(2, (String) it.next());
                 ps.executeUpdate();
             }
         } catch (SQLException ex) {
@@ -203,9 +230,31 @@ public class Herramientas {
         }
     }
 
-    public static void insertTokenizerSQLite(String db, String fichero, String consulta, String token) {
+    public static void insertHashMapSQLite(String db, HashMap m) {
+
+        String consulta = "insert into eje1(id, nombre) values (?,?)";
+
         try {
-            BufferedReader entrada = new BufferedReader(new FileReader(fichero));
+            PreparedStatement ps = connectSQLite(db).prepareStatement(consulta);
+
+            Iterator it = m.keySet().iterator();
+            while (it.hasNext()) {
+                int clave = (Integer) it.next();
+                String valor = (String) m.get(clave);
+
+                ps.setInt(1, clave);
+                ps.setString(2, valor);
+                ps.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static void insertTokenizerSQLite(String db) {
+        try {
+            BufferedReader entrada = new BufferedReader(new FileReader("C:\\petra\\prueba.txt"));
+            String consulta = "insert into eje1 values(?,?)";
             String linea = null;
             PreparedStatement ps = connectSQLite(db).prepareStatement(consulta);
 
@@ -213,10 +262,14 @@ public class Herramientas {
             while ((linea = entrada.readLine()) != null) {
                 // Declaracion de StringTokenizer para la linea almacenada
                 // con el token !
-                StringTokenizer tok = new StringTokenizer(linea, token);
+                StringTokenizer tok = new StringTokenizer(linea, "#");
                 // Mientras haya tokens, añadirlos al ArrayList<Integer>
                 while (tok.hasMoreTokens()) {
-                    //Obtencion de tokens y sets de la consulta
+                    int id = Integer.parseInt(tok.nextToken());
+                    String nom = tok.nextToken();
+
+                    ps.setInt(1, id);
+                    ps.setString(2, nom);
                     ps.executeUpdate();
                 }
             }

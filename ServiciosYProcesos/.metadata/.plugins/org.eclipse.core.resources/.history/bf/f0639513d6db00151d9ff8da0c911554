@@ -52,7 +52,6 @@ public class Cliente {
 		is.close();
 		ois.close();
 		oos.close();
-		osres.close();
 		socket.close();
 		
 		//##############FIN RESERVA##############
