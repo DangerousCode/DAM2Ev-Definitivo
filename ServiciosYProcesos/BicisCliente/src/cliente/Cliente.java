@@ -35,10 +35,10 @@ public class Cliente {
 		//Se envia res para que el hilo sepa que es una reserva
 		DataOutputStream dosres= new DataOutputStream(socket.getOutputStream());
 		dosres.writeUTF("res");
-		ventana.escribecadena(" ha pasado");
 		//-----------------------------------
 		ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 		Bici datos = (Bici) ois.readObject();
+		numbici=datos.getNumero();
 		
 		ventana.escribecadena("Bicicleta disponible con numero: "+datos.getNumero());
 		datos.setReservada(true);
@@ -84,7 +84,7 @@ public class Cliente {
 			//Se envia dev para que el hilo ejecute la opcion de devolver
 			osdev.writeUTF("dev");
 			//-----------------------------------------
-			osdev.write(numbici);
+			osdev.writeInt(numbici);
 		}
 	}
 

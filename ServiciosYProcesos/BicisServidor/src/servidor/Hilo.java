@@ -72,9 +72,9 @@ public class Hilo extends Thread {
 				socket1.close();
 				//
 			} else {
-				InputStream is=socket1.getInputStream();
-				int numbici=is.read();
-				bici[numbici].setReservada(false);
+				DataInputStream is=new DataInputStream(socket1.getInputStream());
+				int numbici=is.readInt();
+				bici[numbici-1].setReservada(false);
 				ventana.escribecadena("La bicicleta numero "+numbici+" ha sido devuelta");
 			}
 		disin.close();
