@@ -3,11 +3,13 @@
 <fullyQualifiedTypeName name="java.io.InputStreamReader"/>
 <fullyQualifiedTypeName name="java.io.BufferedReader"/>
 <fullyQualifiedTypeName name="java.lang.Character"/>
-<fullyQualifiedTypeName name="java.sql.ResultSet"/>
 <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
 <fullyQualifiedTypeName name="java.sql.Connection"/>
-<fullyQualifiedTypeName name="java.sql.CallableStatement"/>
-<fullyQualifiedTypeName name="java.sql.Types"/>
 <fullyQualifiedTypeName name="herramientas2.Herramientas"/>
 <fullyQualifiedTypeName name="Herramientas"/>
+<fullyQualifiedTypeName name="java.sql.CallableStatement"/>
+<fullyQualifiedTypeName name="java.sql.Types"/>
+<fullyQualifiedTypeName name="java.sql.ResultSet"/>
+<fullyQualifiedTypeName name="oracle.jdbc.internal.OracleCallableStatement"/>
+<fullyQualifiedTypeName name="oracle.jdbc.OracleTypes"/>
 </qualifiedTypeNameHistroy>

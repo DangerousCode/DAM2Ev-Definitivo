@@ -1,0 +1,42 @@
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
+
+import oracle.jdbc.OracleTypes;
+import oracle.jdbc.internal.OracleCallableStatement;
+
+public class Principal {
+	public static void main(String args[]){
+		String driver = "oracle.jdbc.driver.OracleDriver";
+        String host = "localhost";
+        String sid = "XE";
+        String puerto = "1521";
+        String usr="hr";
+        String pass="root";
+        String ulrjdbc = "jdbc:oracle:thin:" + usr + "/" + pass + "@" + host + ":" + puerto + ":" + sid;
+        try {
+			Class.forName(driver).newInstance();
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        try {
+			Connection conn = DriverManager.getConnection(ulrjdbc);
+			CallableStatement cs = conn.prepareCall("call salario_mayorque_depart(?,?)");
+			cs.registerOutParameter(1, OracleTypes.CURSOR);
+			cs.setInt(2, 110);
+			cs.executeQuery();
+			
+			ResultSet rs = (ResultSet) cs.getObject(2);
+			while(rs.next()){
+				System.out.println(rs.getString("first_name")+":"+rs.getString("last_name"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}
